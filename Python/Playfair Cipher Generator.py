@@ -45,16 +45,24 @@ def make_keygrid(key, letter):
 def playfair_encrypt(key, letter, message):
 	key=key.upper()
 	letter=letter.upper()
+	message=message.replace(" ", "")
 	message=message.upper()
 	encrypted_message=""
 	keygrid = make_keygrid(key, letter)
 	print(keygrid)
 
+##In a playfair cipher you can only encode digraphs of two letters. If the message has an odd number of letters, simply add a Z on the end to give the last letter a partner 
+
 	if len(message)%2 != 0:
 		message+="Z"
 
 	paircount=0
-	
+
+## Now we iterate over the message taking two letters at a time to encode them. In a playfair cipher, encoding digraphs follows 3 rules:
+	# If the letters are in the same row of the grid, you simply shift each letter one space to the left
+	# If the letters are in the same column, each letter gets shifted down one space
+	# If neither of the above are true, form a rectangle around the two letters and shift each letter to the space which is in the opposite horizontal corner from it
+
 	while paircount <= len(message)-2:
 
 		pair_encrypt=""
@@ -64,13 +72,13 @@ def playfair_encrypt(key, letter, message):
 
 		
 		letPairOneCoords=list(find_in_sublists(keygrid, letpair[0]))
-		print(letpair[0])
-		print(letPairOneCoords)
+		# print(letpair[0])
+		# print(letPairOneCoords)
 
 
 		letPairTwoCoords=list(find_in_sublists(keygrid, letpair[1]))
-		print(letpair[1])
-		print(letPairTwoCoords)
+		# print(letpair[1])
+		# print(letPairTwoCoords)
 
 		if letPairOneCoords[0] == letPairTwoCoords[0]:
 			letPairOneCoords[1] = letPairOneCoords[1]+1
@@ -101,16 +109,4 @@ def playfair_encrypt(key, letter, message):
 	print(encrypted_message)
 
 
-playfair_encrypt("helloworld","Q","sendnudes")	
-
-## Now comes the hard part of encrypting our text. While the text needs to be broken up
-## into digraphs (2 letter pairs), there are some rules of encryption depending on where
-## the pair of letters fall on our keygrid
-## If they are in the same row (the same first coordinate), then each letter shifts one to the 	right, wrapping around 
-## to the start of the row if you go off the end
-
-## If they are in the same column (have the same second coordinate), then each letter moves
-## down the column to the next letter
-
-
-##make_keygrid("helloworld", "Q")
+playfair_encrypt("fox","Q","the maple tree sings")	
