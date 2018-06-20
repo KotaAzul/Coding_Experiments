@@ -49,7 +49,7 @@ def playfair_cipher(key, letter, message, intent):
 	message=message.upper()
 	intent=intent.upper()
 	cipher_message=""
-	
+
 	keygrid = make_keygrid(key, letter)
 	print(keygrid)
 
@@ -115,10 +115,10 @@ def playfair_cipher(key, letter, message, intent):
 				letPairOneCoords[1] = letPairOneCoords[1]-1
 				letPairTwoCoords[1] = letPairTwoCoords[1]-1
 
-				if letPairOneCoords[1] > 4:
-					letPairOneCoords[1] = 0
-				if letPairTwoCoords[1] > 4:
-					letPairTwoCoords[1] = 0
+				if letPairOneCoords[1] < 0:
+					letPairOneCoords[1] = 4
+				if letPairTwoCoords[1] < 0:
+					letPairTwoCoords[1] = 4
 
 			elif letPairOneCoords[1] == letPairTwoCoords[1]:
 				letPairOneCoords[0] = letPairOneCoords[0]-1
