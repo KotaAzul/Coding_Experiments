@@ -42,12 +42,14 @@ def make_keygrid(key, letter):
 
 	return keygrid
 
-def playfair_encrypt(key, letter, message):
+def playfair_cipher(key, letter, message, intent):
 	key=key.upper()
 	letter=letter.upper()
 	message=message.replace(" ", "")
 	message=message.upper()
-	encrypted_message=""
+	intent=intent.upper()
+	cipher_message=""
+	
 	keygrid = make_keygrid(key, letter)
 	print(keygrid)
 
@@ -65,7 +67,7 @@ def playfair_encrypt(key, letter, message):
 
 	while paircount <= len(message)-2:
 
-		pair_encrypt=""
+		pair_code=""
 
 		letpair=message[paircount:paircount+2]
 		paircount+=2
@@ -79,34 +81,64 @@ def playfair_encrypt(key, letter, message):
 		letPairTwoCoords=list(find_in_sublists(keygrid, letpair[1]))
 		# print(letpair[1])
 		# print(letPairTwoCoords)
+		if intent == "E":
+			if letPairOneCoords[0] == letPairTwoCoords[0]:
+				letPairOneCoords[1] = letPairOneCoords[1]+1
+				letPairTwoCoords[1] = letPairTwoCoords[1]+1
 
-		if letPairOneCoords[0] == letPairTwoCoords[0]:
-			letPairOneCoords[1] = letPairOneCoords[1]+1
-			letPairTwoCoords[1] = letPairTwoCoords[1]+1
+				if letPairOneCoords[1] > 4:
+					letPairOneCoords[1] = 0
+				if letPairTwoCoords[1] > 4:
+					letPairTwoCoords[1] = 0
 
-			if letPairOneCoords[1] > 4:
-				letPairOneCoords[1] = 0
-			if letPairTwoCoords[1] > 4:
-				letPairTwoCoords[1] = 0
+			elif letPairOneCoords[1] == letPairTwoCoords[1]:
+				letPairOneCoords[0] = letPairOneCoords[0]+1
+				letPairTwoCoords[0] = letPairTwoCoords[0]+1
 
-		elif letPairOneCoords[1] == letPairTwoCoords[1]:
-			letPairOneCoords[0] = letPairOneCoords[0]+1
-			letPairTwoCoords[0] = letPairTwoCoords[0]+1
+				if letPairOneCoords[0] > 4:
+					letPairOneCoords[0] = 0
+				if letPairTwoCoords[0] > 4:
+					letPairTwoCoords[0] = 0
 
-			if letPairOneCoords[0] > 4:
-				letPairOneCoords[0] = 0
-			if letPairTwoCoords[0] > 4:
-				letPairTwoCoords[0] = 0
+			else:
+				holderOne=letPairOneCoords[1]
+				holderTwo=letPairTwoCoords[1]
+				letPairOneCoords[1] = holderTwo
+				letPairTwoCoords[1] = holderOne
 
-		else:
-			holderOne=letPairOneCoords[1]
-			holderTwo=letPairTwoCoords[1]
-			letPairOneCoords[1] = holderTwo
-			letPairTwoCoords[1] = holderOne
+			pair_code=keygrid[letPairOneCoords[0]][letPairOneCoords[1]]+keygrid[letPairTwoCoords[0]][letPairTwoCoords[1]]
+			cipher_message+=pair_code
+## If the user would like to decrypt a ciphered message, given that they know the keyword and missing letter, the inverse of the above rules are performed
+## with the exception of rule 3, as that is not a strictly directional change 
+		elif intent == "D":
+			if letPairOneCoords[0] == letPairTwoCoords[0]:
+				letPairOneCoords[1] = letPairOneCoords[1]-1
+				letPairTwoCoords[1] = letPairTwoCoords[1]-1
 
-		pair_encrypt=keygrid[letPairOneCoords[0]][letPairOneCoords[1]]+keygrid[letPairTwoCoords[0]][letPairTwoCoords[1]]
-		encrypted_message+=pair_encrypt
-	print(encrypted_message)
+				if letPairOneCoords[1] > 4:
+					letPairOneCoords[1] = 0
+				if letPairTwoCoords[1] > 4:
+					letPairTwoCoords[1] = 0
+
+			elif letPairOneCoords[1] == letPairTwoCoords[1]:
+				letPairOneCoords[0] = letPairOneCoords[0]-1
+				letPairTwoCoords[0] = letPairTwoCoords[0]-1
+
+				if letPairOneCoords[0] < 0:
+					letPairOneCoords[0] = 4
+				if letPairTwoCoords[0] < 0:
+					letPairTwoCoords[0] = 4
+
+			else:
+				holderOne=letPairOneCoords[1]
+				holderTwo=letPairTwoCoords[1]
+				letPairOneCoords[1] = holderTwo
+				letPairTwoCoords[1] = holderOne
+
+			pair_code=keygrid[letPairOneCoords[0]][letPairOneCoords[1]]+keygrid[letPairTwoCoords[0]][letPairTwoCoords[1]]
+			cipher_message+=pair_code
+
+	print(cipher_message)
 
 
-playfair_encrypt("fox","Q","the maple tree sings")	
+playfair_cipher("fox","Q","JCWKBLNMYXYGFZNNKWAIZU", "d")
