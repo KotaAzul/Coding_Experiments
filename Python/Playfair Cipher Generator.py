@@ -82,7 +82,7 @@ def playfair_cipher(key, letter, message, intent):
     paircount = 0
 
 # Now we iterate over the message taking two letters at a time to encode them. In a playfair cipher, encoding digraphs follows 3 rules:
-    # If the letters are in the same row of the grid, you simply shift each letter one space to the left, wrapping back to the far right if needed
+    # If the letters are in the same row of the grid, you simply shift each letter one space to the right, wrapping back to the far left if needed
     # If the letters are in the same column, each letter gets shifted down one space, wrapping back to the top if needed
     # If neither of the above are true, form a rectangle around the two letters and shift each letter to the space which is in the opposite horizontal corner from it in the rectangle
 
@@ -162,4 +162,4 @@ def playfair_cipher(key, letter, message, intent):
     print(cipher_message)
 
 
-playfair_cipher("wtnv", "Q", "all hail the glow cloud", "e")
+playfair_cipher("wtnv", "Q", "All Hail The Glow Cloud", "e")
