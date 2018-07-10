@@ -102,8 +102,8 @@ def playfair_cipher(key, letter, message, intent):
         # print(letPairTwoCoords)
         if intent == "E":
             if letPairOneCoords[0] == letPairTwoCoords[0]:
-                letPairOneCoords[1] = letPairOneCoords[1] + 1
-                letPairTwoCoords[1] = letPairTwoCoords[1] + 1
+                letPairOneCoords[1] += 1
+                letPairTwoCoords[1] += 1
 
                 if letPairOneCoords[1] > 4:
                     letPairOneCoords[1] = 0
@@ -111,8 +111,8 @@ def playfair_cipher(key, letter, message, intent):
                     letPairTwoCoords[1] = 0
 
             elif letPairOneCoords[1] == letPairTwoCoords[1]:
-                letPairOneCoords[0] = letPairOneCoords[0] + 1
-                letPairTwoCoords[0] = letPairTwoCoords[0] + 1
+                letPairOneCoords[0] += 1
+                letPairTwoCoords[0] += 1
 
                 if letPairOneCoords[0] > 4:
                     letPairOneCoords[0] = 0
@@ -133,8 +133,8 @@ def playfair_cipher(key, letter, message, intent):
 
         elif intent == "D":
             if letPairOneCoords[0] == letPairTwoCoords[0]:
-                letPairOneCoords[1] = letPairOneCoords[1] - 1
-                letPairTwoCoords[1] = letPairTwoCoords[1] - 1
+                letPairOneCoords[1] -= 1
+                letPairTwoCoords[1] -= 1
 
                 if letPairOneCoords[1] < 0:
                     letPairOneCoords[1] = 4
@@ -142,8 +142,8 @@ def playfair_cipher(key, letter, message, intent):
                     letPairTwoCoords[1] = 4
 
             elif letPairOneCoords[1] == letPairTwoCoords[1]:
-                letPairOneCoords[0] = letPairOneCoords[0] - 1
-                letPairTwoCoords[0] = letPairTwoCoords[0] - 1
+                letPairOneCoords[0] -= 1
+                letPairTwoCoords[0] -= 1
 
                 if letPairOneCoords[0] < 0:
                     letPairOneCoords[0] = 4
