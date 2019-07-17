@@ -162,5 +162,146 @@ def playfair_cipher(key, letter, message, intent):
     print(cipher_message)
 
 
-playfair_cipher("wtnv", "Q", "All Hail The Glow Cloud", "e")
+#playfair_cipher("wtnv", "Q", "WRMGNKMWJCLSLNBMMXFX", "D")
 
+
+def ceasarCipher(shift, message, intent):
+    intent = intent.upper()
+    message = message.replace(" ", "")
+    message = message.upper()
+
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    new_alphabet = ""
+    cipher_message = ""
+
+    count = 0
+    while count != 2:
+        for each in alphabet:
+            if each == alphabet[shift]:
+                count += 1
+            if count == 1:
+                new_alphabet += each
+
+    if intent == "E":
+        for each in message:
+            cipher_message += new_alphabet[alphabet.find(each)]
+    else:
+        for each in message:
+            cipher_message += alphabet[new_alphabet.find(each)]
+
+    # print(new_alphabet)
+    # print(cipher_message)
+    return cipher_message
+
+#ceasarCipher(1, "FUVCSVUF", "d")
+
+
+def morseCode(message, intent):
+    message = message.upper()
+    message += " "
+    intent = intent.upper()
+    code_message = ""
+    citext = ""
+
+    MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
+                       'C': '-.-.', 'D': '-..', 'E': '.',
+                       'F': '..-.', 'G': '--.', 'H': '....',
+                       'I': '..', 'J': '.---', 'K': '-.-',
+                       'L': '.-..', 'M': '--', 'N': '-.',
+                       'O': '---', 'P': '.--.', 'Q': '--.-',
+                       'R': '.-.', 'S': '...', 'T': '-',
+                       'U': '..-', 'V': '...-', 'W': '.--',
+                       'X': '-..-', 'Y': '-.--', 'Z': '--..',
+                       '1': '.----', '2': '..---', '3': '...--',
+                       '4': '....-', '5': '.....', '6': '-....',
+                       '7': '--...', '8': '---..', '9': '----.',
+                       '0': '-----', ', ': '--..--', '.': '.-.-.-',
+                       '?': '..--..', '/': '-..-.', '-': '-....-',
+                       '(': '-.--.', ')': '-.--.-', '': ''}
+
+    if intent == "E":
+        for let in message:
+            if let != " ":
+                code_message += MORSE_CODE_DICT[let] + " "
+            else:
+                code_message += " "
+        print(code_message)
+        return code_message
+
+    elif intent == "D":
+        for let in message:
+            if let != " ":
+                i = 0
+                citext += let
+            else:
+                i += 1
+
+                if i == 2:
+                    code_message += " "
+                else:
+                    code_message += list(MORSE_CODE_DICT.keys())[list(MORSE_CODE_DICT.values()).index(citext)]
+                    citext = ''
+
+        print(code_message)
+        return code_message
+
+
+#morseCode(morseCode("beep boop beep", "e"), "d")
+
+def ceasarGen(shift):
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    new_alphabet = ""
+    cipher_message = ""
+
+    count = 0
+    while count != 2:
+        for each in alphabet:
+            if each == alphabet[shift]:
+                count += 1
+            if count == 1:
+                new_alphabet += each
+    return new_alphabet
+
+
+##
+def vigenere(key, message, intent):
+    intent = intent.upper()
+    message = message.replace(" ", "")
+    message = message.upper()
+    key = key.replace(" ", "")
+    key = key.upper()
+    keystring = ""
+    cimessage=""
+    keycount=0
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    alpha_num_dict = {"A":0,"B":1,"C":2,"D":3,"E":4,"F":5,"G":6,"H":7,"I":8,"J":9,"K":10,"L":11,"M":12,"N":13,"O":14,"P":15,"Q":16,"R":17,"S":18,"T":19,"U":20,"V":21,"W":22,"X":23,"Y":24,"Z":25
+                     }
+
+    while len(keystring) < len(message):
+        if keycount == len(key):
+            keycount = 0
+        keystring += key[keycount]
+        keycount += 1
+
+    other = 0
+
+    if intent == "E":
+        for each in message:
+            cimessage+=ceasarCipher(alpha_num_dict.get(keystring[other]), each, "e")
+            other += 1
+    elif intent == "D":
+        for each in message:
+            letter_alph = ceasarGen(alpha_num_dict.get(keystring[other]))
+            cimessage+=alphabet[letter_alph.find(each)]
+            other += 1
+            # print(letter_alph)
+            # print(alpha_num_dict.get(each))
+            # print(letter_alph[alpha_num_dict.get(each)])
+            # print()
+
+    print(message, key)
+    return cimessage
+
+#print(vigenere("test","letstrysomethingalittlelonger","E"))
+#print(vigenere("test","EILLMVQLHQWMAMFZTPAMMPWEHRYXK","D"))
